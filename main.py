@@ -43,9 +43,11 @@ def move(game_state: typing.Dict) -> typing.Dict:
     is_move_safe = {"up": True, "down": True, "left": True, "right": True}
 
     # We've included code to prevent your Battlesnake from moving backwards
-    my_head = game_state["you"]["body"][0]  # Coordinates of your head
+    my_head = game_state["you"]["body"][0]
+    print(f"My head is at {my_head}")  # Coordinates of your head
     my_neck = game_state["you"]["body"][1]  # Coordinates of your "neck"
-
+    print(f"My neck is at {my_neck}")
+    
     if my_neck["x"] < my_head["x"]:  # Neck is left of head, don't move left
         is_move_safe["left"] = False
 
@@ -60,13 +62,17 @@ def move(game_state: typing.Dict) -> typing.Dict:
 
     # TODO: Step 1 - Prevent your Battlesnake from moving out of bounds
     board_width = game_state['board']['width']
+    print(f"Width {board_width}"))
     board_height = game_state['board']['height']
+    print(f"Height {board_height}")
 
     # TODO: Step 2 - Prevent your Battlesnake from colliding with itself
     my_body = game_state['you']['body']
+    print(f"My body {my_body}")
 
     # TODO: Step 3 - Prevent your Battlesnake from colliding with other Battlesnakes
     opponents = game_state['board']['snakes']
+    print(f"Opponents {opponents}")
 
     # Are there any safe moves left?
     safe_moves = []
