@@ -89,6 +89,10 @@ def move(game_state: typing.Dict) -> typing.Dict:
     head_y = my_head["y"]
 
     body_coords = [(b["x"], b["y"]) for b in my_body[1:]]
+    opponents = game_state['board']['snakes']
+    opponent_bodies = [o["body"] for o in opponents]
+    for b in opponent_bodies:
+        body_coords.extend(b)
 
     if any(b == (head_x + 1, head_y) for b in body_coords):
         is_move_safe["right"] = False
@@ -103,7 +107,7 @@ def move(game_state: typing.Dict) -> typing.Dict:
         is_move_safe["down"] = False
 
     # TODO: Step 3 - Prevent your Battlesnake from colliding with other Battlesnakes
-    opponents = game_state['board']['snakes']
+
     print(f"Opponents {opponents}")
 
     food = game_state['board']['food']
