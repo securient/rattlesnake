@@ -8,6 +8,7 @@
 
 import random
 import typing
+import math
 
 
 # info is called when you create your Battlesnake on play.battlesnake.com
@@ -104,6 +105,17 @@ def move(game_state: typing.Dict) -> typing.Dict:
     # TODO: Step 3 - Prevent your Battlesnake from colliding with other Battlesnakes
     opponents = game_state['board']['snakes']
     print(f"Opponents {opponents}")
+    
+    
+    food_distances = [] 
+    
+    for f in food:
+        food_distances.append(euclidian_distance(my_head, f))
+        
+    print(f"food_distances: {food}") 
+        
+    closest_food = min(food_distances) 
+    print(f"Closest food: {closest_food}")
 
     # Are there any safe moves left?
     safe_moves = []
@@ -125,6 +137,18 @@ def move(game_state: typing.Dict) -> typing.Dict:
     print(f"MOVE {game_state['turn']}: {next_move}")
     return {"move": next_move}
 
+def euuclidian_distance(point1, point2):
+    x = point2["x"] - point1["x"]
+    x = x * x
+    
+    y = point2["y"] - point1["y"]
+    y = y * y
+    
+    total = x + y
+    
+    return math.sqrt(total)
+    
+    
 
 # Start server when `python main.py` is run
 if __name__ == "__main__":
