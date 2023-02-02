@@ -40,6 +40,8 @@ def end(game_state: typing.Dict):
 # See https://docs.battlesnake.com/api/example-move for available data
 def move(game_state: typing.Dict) -> typing.Dict:
 
+    possible_next = {"x": 0, "y": 0}
+
     is_move_safe = {"up": True, "down": True, "left": True, "right": True}
 
     # We've included code to prevent your Battlesnake from moving backwards
@@ -64,15 +66,19 @@ def move(game_state: typing.Dict) -> typing.Dict:
     board_width = game_state['board']['width']
     print(f"Width {board_width}")
     if my_head["x"] == 0:
+        print("Head x is 0, cant go left")
         is_move_safe["left"] = False
     if my_head["x"] == board_width - 1:
+        print("Head x is board_width, cant go right")
         is_move_safe["right"] = False
     board_height = game_state['board']['height']
     print(f"Height {board_height}")
     if my_head["y"] == 0:
         is_move_safe["down"] = False
+        print("Head y is 0, cant go down")
     if my_head["y"] == board_height - 1:
         is_move_safe["up"] = False
+        print("Head y is board_heigth, cant go up")
 
 
     # TODO: Step 2 - Prevent your Battlesnake from colliding with itself
