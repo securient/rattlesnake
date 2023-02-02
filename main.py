@@ -89,6 +89,20 @@ def move(game_state: typing.Dict) -> typing.Dict:
     body_x = [b["x"] for b in my_body[1:]]
     body_y = [b["y"] for b in my_body[1:]]
 
+    body_coords = [(b["x"], b["y"]) for b in my_body[1:]]
+
+    if any(b == (head_x + 1, head_y) for b in body_coords):
+        is_move_safe["right"] = False
+
+    if any(b == (head_x - 1, head_y) for b in body_coords):
+        is_move_safe["left"] = False
+
+    if any(b == (head_x, head_y + 1) for b in body_coords):
+        is_move_safe["up"] = False
+
+    if any(b == (head_x, head_y - 1) for b in body_coords):
+        is_move_safe["down"] = False
+
     if any(body_x) > head_x:
         is_move_safe["right"] = False
 
