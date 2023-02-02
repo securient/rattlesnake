@@ -88,22 +88,35 @@ def move(game_state: typing.Dict) -> typing.Dict:
     head_x = my_head["x"]
     head_y = my_head["y"]
 
-    body_coords = [(b["x"], b["y"]) for b in my_body[1:]]
+    # TODO: Step 3 - Prevent your Battlesnake from colliding with other Battlesnakes
     opponents = game_state['board']['snakes']
-    opponent_bodies = [o["body"] for o in opponents]
-    for b in opponent_bodies:
-        body_coords.extend(b)
 
-    if any(b == (head_x + 1, head_y) for b in body_coords):
+    # So we could have attacks later, let's separate heads and bodies
+    opponent_heads = []
+    opponent_bodies = []
+
+    for opponent in opponents:
+        if opponent["id"] == game_state["you"]["id"]:
+            continue
+
+        opponent_body = opponent["body"]
+        opponent_heads.append((opponent_body[0]["x"], opponent_body[0]["y"]))
+        opponent_bodies += [(b["x"], b["y"]) for b in opponent_body[1:]]
+
+    opponent_coords = opponent_heads + opponent_bodies
+
+    print(f"Opponent heads are {opponent_heads} and bodies are {opponent_bodies}")
+
+    if any(b == (head_x + 1, head_y) for b in opponent_coords):
         is_move_safe["right"] = False
 
-    if any(b == (head_x - 1, head_y) for b in body_coords):
+    if any(b == (head_x - 1, head_y) for b in opponent_coords):
         is_move_safe["left"] = False
 
-    if any(b == (head_x, head_y + 1) for b in body_coords):
+    if any(b == (head_x, head_y + 1) for b in opponent_coords):
         is_move_safe["up"] = False
 
-    if any(b == (head_x, head_y - 1) for b in body_coords):
+    if any(b == (head_x, head_y - 1) for b in opponent_coords):
         is_move_safe["down"] = False
 
     # TODO: Step 3 - Prevent your Battlesnake from colliding with other Battlesnakes
