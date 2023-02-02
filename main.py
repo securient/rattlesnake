@@ -108,7 +108,30 @@ def move(game_state: typing.Dict) -> typing.Dict:
 
     food = game_state['board']['food']
     print(f"Food {food}")
-    
+
+    opponent_bodies = [o["body"] for o in opponents]
+    opponent_heads = [o[1] for o in opponent_bodies]
+
+    opponent_distances = {}
+
+    for i, f in enumerate(opponent_heads):
+        opponent_distances[euclidian_distance(my_head, f)] = f
+
+    closest_opponent = min(opponent_distances)
+    closest_opntnetn_coords = opponent_distances[closest_opponent]
+
+    if my_head["x"] < closest_opntnetn_coords["x"]:
+        is_move_safe["right"] = False
+
+    if my_head["x"] > closest_opntnetn_coords["x"]:
+        is_move_safe["left"] = False
+
+    if my_head["y"] < closest_opntnetn_coords["y"]:
+        is_move_safe["up"] = False
+
+    if my_head["y"] > closest_opntnetn_coords["y"]:
+        is_move_safe["down"] = False
+
     food_distances = {}
     
     for i, f in enumerate(food):
