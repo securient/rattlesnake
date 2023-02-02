@@ -78,6 +78,8 @@ def move(game_state: typing.Dict) -> typing.Dict:
     # TODO: Step 2 - Prevent your Battlesnake from colliding with itself
     my_body = game_state['you']['body']
     print(f"My body {my_body}")
+    head_x = my_head["x"]
+    head_y = my_head["y"]
     body_x = [b["x"] for b in my_body[1:]]
     body_y = [b["y"] for b in my_body[1:]]
 
