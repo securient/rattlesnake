@@ -105,17 +105,36 @@ def move(game_state: typing.Dict) -> typing.Dict:
     # TODO: Step 3 - Prevent your Battlesnake from colliding with other Battlesnakes
     opponents = game_state['board']['snakes']
     print(f"Opponents {opponents}")
+
+    food = game_state['board']['food']
+    print(f"Food {food}")
     
+    food_distances = {}
     
-    food_distances = [] 
-    
-    for f in food:
-        food_distances.append(euclidian_distance(my_head, f))
+    for i, f in enumerate(food):
+        food_distances[euclidian_distance(my_head, f)] = f
         
-    print(f"food_distances: {food}") 
-        
-    closest_food = min(food_distances) 
-    print(f"Closest food: {closest_food}")
+    print(f"food_distances: {food}")
+
+    closest_food = min(food_distances)
+    closest_food_coords = food_distances[closest_food]
+    print(f"Closest food: {closest_food_coords}")
+
+    if my_head["x"] < closest_food_coords["x"]:
+        if is_move_safe["right"]:
+            return {"move": "right"}
+
+    if my_head["x"] > closest_food_coords["x"]:
+        if is_move_safe["left"]:
+            return {"move": "left"}
+
+    if my_head["y"] < closest_food_coords["y"]:
+        if is_move_safe["up"]:
+            return {"move": "up"}
+
+    if my_head["y"] > closest_food_coords["y"]:
+        if is_move_safe["down"]:
+            return {"move": "down"}
 
     # Are there any safe moves left?
     safe_moves = []
@@ -131,13 +150,11 @@ def move(game_state: typing.Dict) -> typing.Dict:
     next_move = random.choice(safe_moves)
 
     # TODO: Step 4 - Move towards food instead of random, to regain health and survive longer
-    food = game_state['board']['food']
-    print(f"Food {food}")
 
     print(f"MOVE {game_state['turn']}: {next_move}")
     return {"move": next_move}
 
-def euuclidian_distance(point1, point2):
+def euclidian_distance(point1, point2):
     x = point2["x"] - point1["x"]
     x = x * x
     
